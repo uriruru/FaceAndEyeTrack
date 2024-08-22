@@ -1,0 +1,70 @@
+  <div class="face-container">
+    <div class="face">
+        <div class="eye">
+            <div class="pupil"></div>
+        </div>
+        <div class="eye">
+            <div class="pupil"></div>
+        </div>
+    </div>
+    <style>
+        /* Reset body margin and padding */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrollbars if content overflows */
+        }
+
+        .face-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .face {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #FFDAB9;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .eye {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            position: relative;
+            border: 3px solid #000;
+        }
+
+        .pupil {
+            width: 20px;
+            height: 20px;
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+    <script>
+        document.addEventListener('mousemove', (event) => {
+            const eyes = document.querySelectorAll('.eye');
+            const { clientX: mouseX, clientY: mouseY } = event;
+            eyes.forEach((eye) => {
+                const { left, top, width, height } = eye.getBoundingClientRect();
+                const eyeX = left + width / 2;
+                const eyeY = top + height / 2;
+                const angle = Math.atan2(mouseY - eyeY, mouseX - eyeX);
+                const distance = Math.min(Math.sqrt((mouseX - eyeX) ** 2 + (mouseY - eyeY) ** 2), 20);
+                const pupil = eye.querySelector('.pupil');
+                pupil.style.transform = `translate(-50%, -50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+            });
+        });
+    </script>
+</div>
